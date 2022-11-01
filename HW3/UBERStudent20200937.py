@@ -5,33 +5,33 @@ dayOfWeek = {0:'MON', 1:'TUE', 2:'WED', 3:'THU', 4:'FRI', 5:'SAT', 6:'SUN'}
 
 with open(sys.argv[1], "rt") as f:
 	while True:
-		row = f.readline()
-		if not row: break
+		line = f.readline()
+		if not line: break
 		
-		fields = row.split(",")
+		info = line.split(",")
 	
-		base = fields[0]
+		region = info[0]
 		
-		dt = fields[1].split("/")
-		day = days[calendar.weekday(int(dt[0]), int(dt[1]), int(dt[2]))]
+		date = info[1].split("/")
+		day = calendar.weekday(int(date[2]), int(date[0]), int(date[1]))
 	
-		vehicle = int(fields[2])
-		trip = int(fields[3])
+		vehicle = int(info[2])
+		trip = int(info[3])
 	
 		flag = 0
 		for uber in uberList:
-			if uber[0] == base and uber[1] == day:
+			if uber[0] == region and uber[1] == day:
 				uber[2] += vehicle
 				uber[3] += trip
 				flag = 1
 				break
 			
 		if flag == 0:
-			uberList.append([base, day, vehicle, trip])
+			uberList.append([region, day, vehicle, trip])
 			
 		fp = open(sys.argv[2], "wt")
 		for item in uberList:
-			fp.write("%s,%s %d,%d\n" %(item[0], item[1], item[2], item[3]))
+			fp.write("%s,%s %d,%d\n" %(item[0], dayOfWeek[item[1]], item[2], item[3]))
 		fp.close()
 
 
