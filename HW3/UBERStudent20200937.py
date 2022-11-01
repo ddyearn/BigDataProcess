@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 import sys
-import datetime
+import calendar
 
 with open(sys.argv[1], "rt") as f:
 	data = f.read()
@@ -14,8 +14,8 @@ for row in rows:
 	
 	base = fields[0]
 	
-	dt = datetime.datetime.strptime(fields[1], '%m/%d/%Y')
-	day = days[dt.weekday()]
+	dt = fields[1].split("/")
+	day = days[calendar.weekday(int(dt[2]), int(dt[0]), int(dt[1]))]
 	
 	vehicle = int(fields[2])
 	trip = int(fields[3])
