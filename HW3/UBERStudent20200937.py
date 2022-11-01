@@ -30,8 +30,8 @@ with open(sys.argv[1], "rt") as f:
 			uberList.append([base, day, vehicle, trip])
 			
 		fp = open(sys.argv[2], "wt")
-		for uber in uberList:
-			fp.write("%s,%s %d,%d\n" %(uber[0], uber[1], uber[2], uber[3]))
+		for item in uberList:
+			fp.write("%s,%s %d,%d\n" %(item[0], item[1], item[2], item[3]))
 		fp.close()
 
 
