@@ -25,6 +25,9 @@ for e in elements:
 	else:
 		dict[k] = [e[2], e[3]]
 
-keylist = dict.keys()
-for key in keylist:
-	print('%s %d,%d' % (key, dict[key][0], dict[key][1]))
+with open(sys.argv[2], "wt") as fp:
+	keylist = dict.keys()
+	for key in keylist:
+		fp.write('%s %d,%d\n' % (key, dict[key][0], dict[key][1]))
+		
+
