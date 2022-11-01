@@ -7,7 +7,7 @@ with open(sys.argv[1], "rt") as f:
 
 elements = []
 days = ['MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN']
-dict = {}
+dic = {}
 
 rows = data.split("\n")
 for row in rows:
@@ -19,15 +19,15 @@ for row in rows:
 
 for e in elements:
 	k = '%s,%s' % (e[0], e[1])
-	if k in dict:
-		dict[k][0] += e[2]
-		dict[k][1] += e[3]
+	if k not in dic:
+		dic[k] = [e[2], e[3]]
 	else:
-		dict[k] = [e[2], e[3]]
+		dic[k][0] += e[2]
+		dic[k][1] += e[3]
 
 with open(sys.argv[2], "wt") as fp:
-	keylist = dict.keys()
+	keylist = dic.keys()
 	for key in keylist:
-		fp.write('%s %d,%d\n' % (key, dict[key][0], dict[key][1]))
+		fp.write('%s %d,%d\n' % (key, dic[key][0], dic[key][1]))
 		
 
