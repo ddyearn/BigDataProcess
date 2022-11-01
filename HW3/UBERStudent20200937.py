@@ -5,29 +5,35 @@ import datetime
 with open(sys.argv[1], "rt") as f:
 	data = f.read()
 
-elements = []
+ubers = []
 days = ['MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN']
-dic = {}
 
 rows = data.split("\n")
 for row in rows:
 	fields = row.split(",")
+	
+	base = fields[0]
+	
 	dt = datetime.datetime.strptime(fields[1], '%m/%d/%Y')
-	day = dt.weekday()
-	element = (fields[0], days[day], int(fields[2]), int(fields[3]))
-	elements.append(element)
-
-for e in elements:
-	k = '%s,%s' % (e[0], e[1])
-	if k not in dic:
-		dic[k] = [e[2], e[3]]
-	else:
-		dic[k][0] += e[2]
-		dic[k][1] += e[3]
+	day = days[dt.weekday()]
+	
+	vehicle = int(fields[2])
+	trip = int(fields[3])
+	
+	flag = 0
+	
+	for uber in ubers:
+		if uber[0] == base and uber[1] == day:
+			uber[2] += vehicle
+			uber[3] += trip
+			flag = 1
+			break
+			
+	if flag == 0:
+		ubers.append([base, day, vehicle, trip])
 
 with open(sys.argv[2], "wt") as fp:
-	keylist = dic.keys()
-	for key in keylist:
-		fp.write('%s %d,%d\n' % (key, dic[key][0], dic[key][1]))
+	for uber in ubers:
+		fp.write('%s,%s %d,%d\n' % (uber[0], uber[1], uber[2], uber[3]))
 		
 
